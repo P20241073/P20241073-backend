@@ -47,4 +47,15 @@ public class AccountController : ControllerBase
 
         return StatusCode(201);
     }
+
+    [HttpGet("me")]
+    public async Task<ActionResult<AuthenticateResponse>> GetCurrentUser(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        return new AuthenticateResponse
+        {
+            Email = user.Email,
+            Token = await _tokenService.GenerateToken(user)
+        };
+    }
 }
