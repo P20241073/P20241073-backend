@@ -8,19 +8,25 @@ namespace Users.Controllers;
 public class AccountController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
-    public AccountController(UserManager<User> userManager)
+    private readonly TokenService _tokenService;
+    public AccountController(UserManager<User> userManager, TokenService tokenService)
     {
         _userManager = userManager;
+        _tokenService = tokenService;
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<User>> Login(AuthenticateRequest authenticateRequest)
+    public async Task<ActionResult<AuthenticateResponse>> Login(AuthenticateRequest authenticateRequest)
     {
         var user = await _userManager.FindByEmailAsync(authenticateRequest.Email);
         if (user == null || !await _userManager.CheckPasswordAsync(user, authenticateRequest.Password))
             return Unauthorized();
 
-        return user;
+        return new AuthenticateResponse
+        {
+            Email = user.Email,
+            Token = await _tokenService.GenerateToken(user)
+        };
     }
 
     [HttpPost("register")]

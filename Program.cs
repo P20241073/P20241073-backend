@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Security.Domain.Services.Communication;
 using Shared.Persistence.Context;
 using Users.Domain.Model;
 
@@ -26,6 +27,7 @@ builder.Services.AddIdentityCore<User>(opt =>
 
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
+builder.Services.AddScoped<TokenService>();
 
 var app = builder.Build();
 
