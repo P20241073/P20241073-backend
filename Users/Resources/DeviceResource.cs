@@ -1,10 +1,7 @@
-using System.Text.Json.Serialization;
+namespace Users.Resources;
 
-namespace Users.Domain.Model;
-
-public class Device 
+public class DeviceResource
 {
-    // Properties
     public int Id { get; set; }
     public string Name { get; set; }
     public string Info { get; set; }
