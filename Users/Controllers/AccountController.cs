@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Security.Domain.Services.Communication;
@@ -33,7 +34,8 @@ public class AccountController : ControllerBase
     public async Task<ActionResult> Register(RegisterRequest registerRequest)
     {
         var user = new User
-        {
+        {   
+            UserName = registerRequest.Email,
             Email = registerRequest.Email,
             Name = registerRequest.Name,
             LastName = registerRequest.LastName
@@ -47,7 +49,8 @@ public class AccountController : ControllerBase
 
         return StatusCode(201);
     }
-
+    
+    [Authorize]
     [HttpGet("me")]
     public async Task<ActionResult<AuthenticateResponse>> GetCurrentUser(string email)
     {

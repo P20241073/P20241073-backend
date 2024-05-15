@@ -6,24 +6,18 @@ using Shared.Extensions;
 
 namespace Shared.Persistence.Context;
 
-public class AppDbContext : IdentityDbContext<User>
+public class AppDbContext : IdentityDbContext<User, Role, int>
 {
     public AppDbContext(DbContextOptions options) : base(options){}
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.Entity<IdentityRole>()
+        builder.Entity<Role>()
             .HasData(
-                new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
-                new IdentityRole { Name = "User", NormalizedName = "USER" }
+                new Role {Id = 1, Name = "User", NormalizedName = "USER" },
+                new Role {Id = 2, Name = "Admin", NormalizedName = "ADMIN" }
             );
-        //Users
-        builder.Entity<User>().ToTable("Users");
-        builder.Entity<User>().HasKey(p => p.Id);
-        builder.Entity<User>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<User>().Property(p => p.Email).IsRequired().HasMaxLength(100);
-
 
         //Snake Case Conventions
         

@@ -1,4 +1,4 @@
-using Shared.Persistence.Contexts;
+using Shared.Persistence.Context;
 
 namespace Shared.Persistence.Repositories;
 
