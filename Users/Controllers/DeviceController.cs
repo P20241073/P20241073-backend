@@ -1,5 +1,3 @@
-
-
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Extensions;
@@ -37,21 +35,6 @@ public class DeviceController : ControllerBase
     public async Task<ActionResult> GetByIdAsync(int id)
     {
         var result = await _deviceService.GetByIdAsync(id);
-
-        if (!result.Success)
-            return BadRequest(result.Message);
-
-        var deviceResult = _mapper.Map<Device, DeviceResource>(result.Resource);
-
-        return Ok(deviceResult);
-    }
-
-    [HttpGet("uid/{userId}")]
-    [ProducesResponseType(typeof(DeviceResource), 200)]
-    [ProducesResponseType(typeof(BadRequestResult), 404)]
-    public async Task<IActionResult> GetByUserIdAsync(int userId)
-    {
-        var result = await _deviceService.GetByUserIdAsync(userId);
 
         if (!result.Success)
             return BadRequest(result.Message);

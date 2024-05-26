@@ -5,8 +5,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Security.Domain.Services.Communication;
+using Shared.Domain.Repositories;
+using Shared.Mapping;
 using Shared.Persistence.Context;
+using Shared.Persistence.Repositories;
 using Users.Domain.Model;
+using Users.Domain.Repositories;
+using Users.Domain.Services;
+using Users.Persistence;
+using Users.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,6 +78,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
+
+builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
+
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddAutoMapper(
+    typeof(ModelToResourceProfile),
+    typeof(ResourceToModelProfile));
 
 var app = builder.Build();
 

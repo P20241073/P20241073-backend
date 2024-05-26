@@ -7,7 +7,7 @@ public interface IDeviceRepository
     Task<IEnumerable<Device>> ListAsync();
     Task AddAsync(Device device);
     Task<Device> FindByIdAsync(int id);
-    Task<Device> FindByUserIdAsync(int userId);
+    Task<IEnumerable<Device>> FindAllByUserIdAsync(int userId);
     void Update(Device device);
     void Remove(Device device);
 }

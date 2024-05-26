@@ -95,13 +95,9 @@ public class DeviceService : IDeviceService
         return new DeviceResponse(existingDevice);
     }
 
-    public async Task<DeviceResponse> GetByUserIdAsync(int userId)
+    public async Task<IEnumerable<Device>> GetByUserIdAsync(int userId)
     {
-        var existingDevice = await _deviceRepository.FindByUserIdAsync(userId);
+        return await _deviceRepository.FindAllByUserIdAsync(userId);
 
-        if (existingDevice == null)
-            return new DeviceResponse("Device not found.");
-
-        return new DeviceResponse(existingDevice);
     }
 }

@@ -6,7 +6,7 @@ public interface IDeviceService
 {
     Task<IEnumerable<Device>> ListAsync();
     Task<DeviceResponse> GetByIdAsync(int id);
-    Task<DeviceResponse> GetByUserIdAsync(int userId);
+    Task<IEnumerable<Device>> GetByUserIdAsync(int userId);
     Task<DeviceResponse> SaveAsync(Device device);
     Task<DeviceResponse> UpdateAsync(int id, Device device);
     Task<DeviceResponse> DeleteAsync(int id);

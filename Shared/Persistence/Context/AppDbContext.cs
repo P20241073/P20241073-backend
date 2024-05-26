@@ -30,6 +30,11 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
         builder.Entity<Device>().Property(p => p.UserType).IsRequired();
         builder.Entity<Device>().Property(p => p.UserId).IsRequired();
 
+        //Relationships
+        builder.Entity<User>().HasMany(p => p.Devices)
+            .WithOne(p => p.User)
+            .HasForeignKey(p => p.UserId);
+
         //Snake Case Conventions
         
         builder.UseSnakeCaseNamingConvention();   

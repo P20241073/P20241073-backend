@@ -8,4 +8,6 @@ public class User : IdentityUser<int>
     // Properties
     public string Name { get; set; }
     public string LastName { get; set; }
+
+    public IList<Device> Devices {get; set;}
 }

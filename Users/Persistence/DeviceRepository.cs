@@ -20,14 +20,14 @@ namespace Users.Persistence
             await _context.Devices.AddAsync(device);
         }
 
+        public async Task<IEnumerable<Device>> FindAllByUserIdAsync(int userId)
+        {
+            return await _context.Devices.Where(d => d.UserId == userId).ToListAsync();
+        }
+
         public async Task<Device> FindByIdAsync(int id)
         {
             return await _context.Devices.FindAsync(id);
-        }
-
-        public async Task<Device> FindByUserIdAsync(int userId)
-        {
-            return await _context.Devices.FirstOrDefaultAsync(d => d.UserId == userId);
         }
 
         public void Update(Device device)
