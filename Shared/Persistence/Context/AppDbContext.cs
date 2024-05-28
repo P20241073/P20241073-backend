@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Users.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Shared.Extensions;
+using Activities.Domain.Model;
 
 namespace Shared.Persistence.Context;
 
@@ -11,7 +12,8 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
     public AppDbContext(DbContextOptions options) : base(options){}
 
     public DbSet<Device> Devices { get; set; }
-    
+    public DbSet<Activity> Activities {get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -21,7 +23,7 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
                 new Role {Id = 2, Name = "Admin", NormalizedName = "ADMIN" }
             );
 
-        //Customers
+        //Devices
         builder.Entity<Device>().ToTable("Devices");
         builder.Entity<Device>().HasKey(p => p.Id);
         builder.Entity<Device>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
@@ -34,6 +36,21 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
         builder.Entity<User>().HasMany(p => p.Devices)
             .WithOne(p => p.User)
             .HasForeignKey(p => p.UserId);
+
+        //Activities
+        builder.Entity<Activity>().ToTable("Activities");
+        builder.Entity<Activity>().HasKey(p => p.Id);
+        builder.Entity<Activity>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Activity>().Property(p => p.AppName).IsRequired().HasMaxLength(200);
+        builder.Entity<Activity>().Property(p => p.TotalTimeUsedPerDay).IsRequired();
+        builder.Entity<Activity>().Property(p => p.DateReported).IsRequired();
+        builder.Entity<Activity>().Property(p => p.TotalNotifications).IsRequired();
+        builder.Entity<Activity>().Property(p => p.DeviceId).IsRequired();
+
+        //Relationships
+        builder.Entity<Device>().HasMany(p => p.Activities)
+            .WithOne(p => p.Device)
+            .HasForeignKey(p => p.DeviceId);
 
         //Snake Case Conventions
         

@@ -1,3 +1,4 @@
+using Activities.Domain.Model;
 using AutoMapper;
 using Users.Domain.Model;
 using Users.Resources;
@@ -9,5 +10,6 @@ public class ResourceToModelProfile : Profile
     public ResourceToModelProfile()
     {
         CreateMap<SaveDeviceResource, Device>();
+        CreateMap<SaveActivityResource, Activity>();
     }
 }
