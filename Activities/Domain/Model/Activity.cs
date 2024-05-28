@@ -11,7 +11,6 @@ public class Activity
     public TimeSpan TotalTimeUsedPerDay { get; set; }
     public DateTime DateReported { get; set; }
     public int TotalNotifications { get; set; }
-    public int UserId { get; set; }
     public Device Device {get; set;}
     public int DeviceId { get; set; }
 }

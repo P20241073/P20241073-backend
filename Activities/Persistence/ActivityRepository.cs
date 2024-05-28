@@ -1,5 +1,6 @@
 using Activites.Domain.Model;
 using Activites.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Shared.Persistence.Context;
 using Shared.Persistence.Repositories;
 
