@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Users.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Shared.Extensions;
-using Activites.Domain.Model;
+using Activities.Domain.Model;
 
 namespace Shared.Persistence.Context;
 

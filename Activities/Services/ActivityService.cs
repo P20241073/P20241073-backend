@@ -1,10 +1,10 @@
-using Activites.Domain.Model;
-using Activites.Domain.Repositories;
+using Activities.Domain.Model;
+using Activities.Domain.Repositories;
 using Activities.Domain.Services;
 using Activities.Domain.Services.Communication;
 using Shared.Domain.Repositories;
 
-namespace Activites.Services;
+namespace Activities.Services;
 public class ActivityService : IActivityService
 {
     private readonly IActivityRepository _activityRepository;

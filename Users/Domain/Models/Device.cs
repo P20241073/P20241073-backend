@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using Activites.Domain.Model;
+using Activities.Domain.Model;
 
 namespace Users.Domain.Model;
 

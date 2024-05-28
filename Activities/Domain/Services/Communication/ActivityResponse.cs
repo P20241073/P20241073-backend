@@ -1,4 +1,4 @@
-using Activites.Domain.Model;
+using Activities.Domain.Model;
 using Shared.Domain.Services.Communication;
 
 namespace Activities.Domain.Services.Communication;

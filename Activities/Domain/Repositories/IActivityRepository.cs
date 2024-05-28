@@ -1,6 +1,6 @@
-using Activites.Domain.Model;
+using Activities.Domain.Model;
 
-namespace Activites.Domain.Repositories;
+namespace Activities.Domain.Repositories;
 
 public interface IActivityRepository
 {

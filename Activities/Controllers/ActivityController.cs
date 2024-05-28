@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Activites.Controllers;
+namespace Activities.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class DeviceController : ControllerBase{

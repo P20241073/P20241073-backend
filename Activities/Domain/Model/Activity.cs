@@ -1,7 +1,7 @@
 using System;
 using Users.Domain.Model;
 
-namespace Activites.Domain.Model;
+namespace Activities.Domain.Model;
 
 public class Activity 
 {
