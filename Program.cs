@@ -1,6 +1,9 @@
 using System.Text;
+using Activities.Domain.Repositories;
+using Activities.Domain.Services;
+using Activities.Persistence;
+using Activities.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -81,6 +84,8 @@ builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
+builder.Services.AddScoped<IActivityService, ActivityService>();
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
