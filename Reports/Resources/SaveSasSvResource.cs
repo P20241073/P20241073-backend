@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Reports.Resources;
 
-public class SaveSurveyResource
+public class SaveSasSvResource
 {
     [Required]
     public int DeviceId { get; set; }

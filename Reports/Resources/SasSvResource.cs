@@ -1,13 +1,9 @@
-using System;
-using Users.Domain.Model;
+namespace Reports.Resources;
 
-namespace Reports.Domain.Model;
-
-public class Survey 
+public class SasSvResource
 {
     public int Id { get; set; }
     public int DeviceId { get; set; }
-    public Device Device { get; set; }
     public int Item1 { get; set; }
     public int Item2 { get; set; }
     public int Item3 { get; set; }
