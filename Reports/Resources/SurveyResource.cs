@@ -14,6 +14,5 @@ public class SurveyResource
     public int Item8 { get; set; }
     public int Item9 { get; set; }
     public int Item10 { get; set; }
-    public int TotalSum {get; set;}
     public DateTime DateTaken { get; set; }
 }

@@ -4,6 +4,7 @@ using Users.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Shared.Extensions;
 using Activities.Domain.Model;
+using Reports.Domain.Model;
 
 namespace Shared.Persistence.Context;
 
@@ -13,6 +14,7 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
 
     public DbSet<Device> Devices { get; set; }
     public DbSet<Activity> Activities {get; set; }
+    public DbSet<Survey> Surveys {get; set;}
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -51,6 +53,23 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
         builder.Entity<Device>().HasMany(p => p.Activities)
             .WithOne(p => p.Device)
             .HasForeignKey(p => p.DeviceId);
+
+        //Surveys SAS SV
+        builder.Entity<Survey>().ToTable("Surveys");
+        builder.Entity<Survey>().HasKey(p => p.Id);
+        builder.Entity<Survey>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Survey>().Property(p => p.DeviceId).IsRequired();
+        builder.Entity<Survey>().Property(p => p.Item1).IsRequired().HasMaxLength(200);
+        builder.Entity<Survey>().Property(p => p.Item2).IsRequired().HasMaxLength(200);
+        builder.Entity<Survey>().Property(p => p.Item3).IsRequired().HasMaxLength(200);
+        builder.Entity<Survey>().Property(p => p.Item4).IsRequired().HasMaxLength(200);
+        builder.Entity<Survey>().Property(p => p.Item5).IsRequired().HasMaxLength(200);
+        builder.Entity<Survey>().Property(p => p.Item6).IsRequired().HasMaxLength(200);
+        builder.Entity<Survey>().Property(p => p.Item7).IsRequired().HasMaxLength(200);
+        builder.Entity<Survey>().Property(p => p.Item8).IsRequired().HasMaxLength(200);
+        builder.Entity<Survey>().Property(p => p.Item9).IsRequired().HasMaxLength(200);
+        builder.Entity<Survey>().Property(p => p.Item10).IsRequired().HasMaxLength(200);
+        builder.Entity<Survey>().Property(p => p.DateTaken).IsRequired();
 
         //Snake Case Conventions
         
