@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Reports.Domain.Repositories;
+using Reports.Domain.Services;
+using Reports.Persistence;
+using Reports.Services;
 using Security.Domain.Services.Communication;
 using Shared.Domain.Repositories;
 using Shared.Mapping;
@@ -86,6 +90,8 @@ builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
 builder.Services.AddScoped<IActivityService, ActivityService>();
+builder.Services.AddScoped<ISasSvRepository, SasSvRepository>();
+builder.Services.AddScoped<ISasSvService, SasSvService>();
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

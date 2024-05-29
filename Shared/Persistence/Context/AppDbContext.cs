@@ -70,6 +70,11 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
         builder.Entity<SasSv>().Property(p => p.Item10).IsRequired().HasMaxLength(200);
         builder.Entity<SasSv>().Property(p => p.DateTaken).IsRequired();
 
+        //Relationships
+        builder.Entity<Device>().HasMany(p => p.SasSvs)
+            .WithOne(p => p.Device)
+            .HasForeignKey(p => p.DeviceId);
+
         //Snake Case Conventions
         
         builder.UseSnakeCaseNamingConvention();   
