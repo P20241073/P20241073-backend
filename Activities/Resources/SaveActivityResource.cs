@@ -9,7 +9,7 @@ public class SaveActivityResource
     public string AppName { get; set; }
 
     [Required]
-    public TimeSpan TotalTimeUsedPerDay { get; set; }
+    public string TotalTimeUsedPerDay { get; set; }
 
     [Required]
     public DateTime DateReported { get; set; }
