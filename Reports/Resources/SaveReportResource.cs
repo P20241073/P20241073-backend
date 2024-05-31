@@ -5,6 +5,9 @@ namespace Reports.Resources;
 public class SavReportResource
 {
     [Required]
+    public int DeviceId { get; set; }
+    
+    [Required]
     public int AverageTimeUsedPerDay { get; set; }
     
     [Required]
