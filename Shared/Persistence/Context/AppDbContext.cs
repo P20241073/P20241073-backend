@@ -14,6 +14,7 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
     public DbSet<Device> Devices { get; set; }
     public DbSet<Activity> Activities {get; set; }
     public DbSet<SasSv> SasSvs {get; set;}
+    public DbSet<Report> Reports {get; set;}
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -72,6 +73,20 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
 
         //Relationships
         builder.Entity<Device>().HasMany(p => p.SasSvs)
+            .WithOne(p => p.Device)
+            .HasForeignKey(p => p.DeviceId);
+
+        //Reports
+        builder.Entity<Report>().ToTable("Reports");
+        builder.Entity<Report>().HasKey(p => p.Id);
+        builder.Entity<Report>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Report>().Property(p => p.AverageTimeUsedPerDay).IsRequired();
+        builder.Entity<Report>().Property(p => p.UsesSocialMedia).IsRequired();
+        builder.Entity<Report>().Property(p => p.MostUsedApp).IsRequired().HasMaxLength(200);
+        builder.Entity<Report>().Property(p => p.DateTaken).IsRequired();
+
+        //Relationships
+        builder.Entity<Device>().HasMany(p => p.Reports)
             .WithOne(p => p.Device)
             .HasForeignKey(p => p.DeviceId);
 

@@ -1,5 +1,7 @@
 using Activities.Domain.Model;
 using AutoMapper;
+using Reports.Domain.Model;
+using Reports.Resources;
 using Users.Domain.Model;
 using Users.Resources;
 
@@ -11,5 +13,6 @@ public class ResourceToModelProfile : Profile
     {
         CreateMap<SaveDeviceResource, Device>();
         CreateMap<SaveActivityResource, Activity>();
+        CreateMap<SaveSasSvResource, SasSv>();
     }
 }
