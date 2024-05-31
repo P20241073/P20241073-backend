@@ -85,7 +85,10 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
         builder.Entity<Report>().Property(p => p.MostUsedApp).IsRequired().HasMaxLength(200);
         builder.Entity<Report>().Property(p => p.DateTaken).IsRequired();
 
-        
+        //Relationships
+        builder.Entity<Device>().HasMany(p => p.Reports)
+            .WithOne(p => p.Device)
+            .HasForeignKey(p => p.DeviceId);
 
         //Snake Case Conventions
         

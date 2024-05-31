@@ -16,4 +16,6 @@ public class Device
 
     public IList<Activity> Activities {get; set;}
     public IList<SasSv> SasSvs {get; set;}
+    public IList<Report> Reports {get; set;}
+
 }

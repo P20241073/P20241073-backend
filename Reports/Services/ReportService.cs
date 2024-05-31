@@ -34,7 +34,7 @@ public class ReportService : IReportService
 
     public async Task<IEnumerable<Report>> GetByDeviceIdAsync(int deviceId)
     {
-        return await _reportRepository.ListByDeviceIdAsync(deviceId);
+        return await _reportRepository.FindAllByDeviceIdAsync(deviceId);
     }
 
     public async Task<ReportResponse> SaveAsync(Report report)
@@ -60,11 +60,9 @@ public class ReportService : IReportService
         if (existingReport == null)
             return new ReportResponse("Report not found");
 
-        existingReport.DeviceId = report.DeviceId;
-        existingReport.ReportDate = report.ReportDate;
-        existingReport.ReportType = report.ReportType;
-        existingReport.ReportStatus = report.ReportStatus;
-        existingReport.ReportDescription = report.ReportDescription;
+        existingReport.AverageTimeUsedPerDay = report.AverageTimeUsedPerDay;
+        existingReport.MostUsedApp = report.MostUsedApp;
+        existingReport.UsesSocialMedia = report.UsesSocialMedia;
 
         try
         {
@@ -95,4 +93,8 @@ public class ReportService : IReportService
             return new ReportResponse(existingReport);
         }
         catch (Exception ex)
+        {
+            return new ReportResponse($"An error occurred when deleting the report: {ex.Message}");
+        }
+    }
 }
