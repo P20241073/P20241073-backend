@@ -2,11 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Reports.Resources;
 
-public class SavReportResource
+public class SaveReportResource
 {
     [Required]
     public int DeviceId { get; set; }
-    
+
     [Required]
     public int AverageTimeUsedPerDay { get; set; }
     
