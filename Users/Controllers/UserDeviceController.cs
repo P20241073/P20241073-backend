@@ -24,7 +24,7 @@ public class UserDeviceController: ControllerBase
 
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<DeviceResource>), 200)]
-    public async Task<ActionResult<IEnumerable<Device>>> GetAllAsyncByUserId([FromQuery] int userId)
+    public async Task<ActionResult<IEnumerable<Device>>> GetAllAsyncByUserId(int userId)
     {
         var devices = await _deviceService.GetByUserIdAsync(userId);
 

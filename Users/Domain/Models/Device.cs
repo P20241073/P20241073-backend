@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Activities.Domain.Model;
+using Reports.Domain.Model;
 
 namespace Users.Domain.Model;
 
@@ -14,4 +15,7 @@ public class Device
     public User User {get; set;}
 
     public IList<Activity> Activities {get; set;}
+    public IList<SasSv> SasSvs {get; set;}
+    public IList<Report> Reports {get; set;}
+
 }

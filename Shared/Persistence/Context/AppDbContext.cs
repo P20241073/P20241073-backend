@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Users.Domain.Model;
-using Microsoft.AspNetCore.Identity;
 using Shared.Extensions;
 using Activities.Domain.Model;
+using Reports.Domain.Model;
 
 namespace Shared.Persistence.Context;
 
@@ -13,6 +13,8 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
 
     public DbSet<Device> Devices { get; set; }
     public DbSet<Activity> Activities {get; set; }
+    public DbSet<SasSv> SasSvs {get; set;}
+    public DbSet<Report> Reports {get; set;}
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -49,6 +51,42 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
 
         //Relationships
         builder.Entity<Device>().HasMany(p => p.Activities)
+            .WithOne(p => p.Device)
+            .HasForeignKey(p => p.DeviceId);
+
+        //SasSvs SAS SV
+        builder.Entity<SasSv>().ToTable("SasSvs");
+        builder.Entity<SasSv>().HasKey(p => p.Id);
+        builder.Entity<SasSv>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<SasSv>().Property(p => p.DeviceId).IsRequired();
+        builder.Entity<SasSv>().Property(p => p.Item1).IsRequired().HasMaxLength(200);
+        builder.Entity<SasSv>().Property(p => p.Item2).IsRequired().HasMaxLength(200);
+        builder.Entity<SasSv>().Property(p => p.Item3).IsRequired().HasMaxLength(200);
+        builder.Entity<SasSv>().Property(p => p.Item4).IsRequired().HasMaxLength(200);
+        builder.Entity<SasSv>().Property(p => p.Item5).IsRequired().HasMaxLength(200);
+        builder.Entity<SasSv>().Property(p => p.Item6).IsRequired().HasMaxLength(200);
+        builder.Entity<SasSv>().Property(p => p.Item7).IsRequired().HasMaxLength(200);
+        builder.Entity<SasSv>().Property(p => p.Item8).IsRequired().HasMaxLength(200);
+        builder.Entity<SasSv>().Property(p => p.Item9).IsRequired().HasMaxLength(200);
+        builder.Entity<SasSv>().Property(p => p.Item10).IsRequired().HasMaxLength(200);
+        builder.Entity<SasSv>().Property(p => p.DateTaken).IsRequired();
+
+        //Relationships
+        builder.Entity<Device>().HasMany(p => p.SasSvs)
+            .WithOne(p => p.Device)
+            .HasForeignKey(p => p.DeviceId);
+
+        //Reports
+        builder.Entity<Report>().ToTable("Reports");
+        builder.Entity<Report>().HasKey(p => p.Id);
+        builder.Entity<Report>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Report>().Property(p => p.AverageTimeUsedPerDay).IsRequired();
+        builder.Entity<Report>().Property(p => p.UsesSocialMedia).IsRequired();
+        builder.Entity<Report>().Property(p => p.MostUsedApp).IsRequired().HasMaxLength(200);
+        builder.Entity<Report>().Property(p => p.DateTaken).IsRequired();
+
+        //Relationships
+        builder.Entity<Device>().HasMany(p => p.Reports)
             .WithOne(p => p.Device)
             .HasForeignKey(p => p.DeviceId);
 

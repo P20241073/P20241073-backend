@@ -17,7 +17,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<AuthenticateResponse>> Login(AuthenticateRequest authenticateRequest)
+    public async Task<ActionResult<AuthenticateResponse>> Login([FromBody] AuthenticateRequest authenticateRequest)
     {
         var user = await _userManager.FindByEmailAsync(authenticateRequest.Email);
         if (user == null || !await _userManager.CheckPasswordAsync(user, authenticateRequest.Password))
@@ -25,13 +25,16 @@ public class AccountController : ControllerBase
 
         return new AuthenticateResponse
         {
+            Id = user.Id,
+            Name = user.Name,
+            LastName = user.LastName,
             Email = user.Email,
             Token = await _tokenService.GenerateToken(user)
         };
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult> Register(RegisterRequest registerRequest)
+    public async Task<ActionResult> Register([FromBody] RegisterRequest registerRequest)
     {
         var user = new User
         {   
