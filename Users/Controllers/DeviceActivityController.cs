@@ -1,12 +1,8 @@
-using System.Diagnostics;
+using Activities.Domain.Model;
 using Activities.Domain.Services;
 using Activities.Resources;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Extensions;
-using Users.Domain.Model;
-using Users.Domain.Services;
-using Users.Resources;
 
 namespace Users.Controllers;
 
