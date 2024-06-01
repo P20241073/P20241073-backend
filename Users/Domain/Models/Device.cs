@@ -8,12 +8,13 @@ public class Device
 {
     // Properties
     public int Id { get; set; }
+    public int Age { get; set; }
+    public int Grade { get; set; }
     public string Name { get; set; }
     public string Info { get; set; }
     public string UserType { get; set; }
     public int UserId { get; set; }
     public User User {get; set;}
-
     public IList<Activity> Activities {get; set;}
     public IList<SasSv> SasSvs {get; set;}
     public IList<Report> Reports {get; set;}
