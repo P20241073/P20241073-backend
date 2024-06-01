@@ -92,6 +92,8 @@ builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
 builder.Services.AddScoped<IActivityService, ActivityService>();
 builder.Services.AddScoped<ISasSvRepository, SasSvRepository>();
 builder.Services.AddScoped<ISasSvService, SasSvService>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<IReportService, ReportService>();
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

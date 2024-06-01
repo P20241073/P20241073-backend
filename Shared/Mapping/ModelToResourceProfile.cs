@@ -14,6 +14,7 @@ public class ModelToResourceProfile : Profile
         CreateMap<Device, DeviceResource>();
         CreateMap<Activity, ActivityResource>();
         CreateMap<SasSv, SasSvResource>();
+        CreateMap<Report, ReportResource>();
     }
 
 }
