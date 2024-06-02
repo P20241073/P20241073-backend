@@ -29,6 +29,8 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
         builder.Entity<Device>().ToTable("Devices");
         builder.Entity<Device>().HasKey(p => p.Id);
         builder.Entity<Device>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Device>().Property(p => p.Age).IsRequired();
+        builder.Entity<Device>().Property(p => p.Grade).IsRequired();
         builder.Entity<Device>().Property(p => p.Name).IsRequired().HasMaxLength(200);
         builder.Entity<Device>().Property(p => p.Info).IsRequired().HasMaxLength(600);
         builder.Entity<Device>().Property(p => p.UserType).IsRequired();

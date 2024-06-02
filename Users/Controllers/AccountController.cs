@@ -54,12 +54,15 @@ public class AccountController : ControllerBase
     }
     
     [Authorize]
-    [HttpGet("me")]
-    public async Task<ActionResult<AuthenticateResponse>> GetCurrentUser(string email)
+    [HttpGet("currentUser")]
+    public async Task<ActionResult<AuthenticateResponse>> GetCurrentUser()
     {
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await _userManager.FindByNameAsync(User.Identity.Name);
         return new AuthenticateResponse
         {
+            Id = user.Id,
+            Name = user.Name,
+            LastName = user.LastName,
             Email = user.Email,
             Token = await _tokenService.GenerateToken(user)
         };
