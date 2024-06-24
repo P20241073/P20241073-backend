@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+namespace MachineLearning.Resources;
 public class InputItem
 {
     [Required]
@@ -60,7 +61,7 @@ public class Inputs
     public List<InputItem> input1 { get; set; }
 }
 
-public class MachineLearningDataResource
+public class SaveMachineLearningResource
 {
     [Required]
     public Inputs Inputs { get; set; }

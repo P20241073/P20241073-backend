@@ -3,6 +3,8 @@ using Activities.Domain.Repositories;
 using Activities.Domain.Services;
 using Activities.Persistence;
 using Activities.Services;
+using MachineLearning.Domain.Services;
+using MachineLearning.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -94,6 +96,8 @@ builder.Services.AddScoped<ISasSvRepository, SasSvRepository>();
 builder.Services.AddScoped<ISasSvService, SasSvService>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddSingleton<IBusinessLogicService, BusinessLogicService>();
+builder.Services.AddScoped<HttpClientService>();
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
