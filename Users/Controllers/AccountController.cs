@@ -130,4 +130,23 @@ public class AccountController : ControllerBase
 
         return Ok();
     }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest resetPasswordRequest)
+    {
+        if(ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        var user = await _userManager.FindByEmailAsync(resetPasswordRequest.Email!);
+        if (user == null)
+            return BadRequest("User not found");
+
+        var result = await _userManager.ResetPasswordAsync(user, resetPasswordRequest.Token!, resetPasswordRequest.Password!;
+        if (result.Succeeded)
+            return Ok();
+
+        return BadRequest(result.Errors);
+    }
 }
