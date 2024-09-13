@@ -111,4 +111,23 @@ public class AccountController : ControllerBase
             Token = await _tokenService.GenerateToken(user)
         };
     }
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest forgotPasswordRequest)
+    {
+        if(ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        var user = await _userManager.FindByEmailAsync(forgotPasswordRequest.Email);
+        if (user == null)
+            return BadRequest("User not found");
+
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        await _emailService.SendEmailAsync(user.Email, "Reset Password", 
+            $"Please reset your password by clicking here: {forgotPasswordRequest.ClientUri}/reset-password?email={user.Email}&token={token}");
+
+        return Ok();
+    }
 }
