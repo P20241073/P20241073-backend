@@ -23,13 +23,17 @@ public class AccountController : ControllerBase
     public async Task<ActionResult<AuthenticateResponse>> Login([FromBody] AuthenticateRequest authenticateRequest)
     {
         var user = await _userManager.FindByEmailAsync(authenticateRequest.Email);
+        if (user == null)
+        {
+            return Unauthorized("Invalid email or password.");
+        }
         var checkConfirmed = await _userManager.IsEmailConfirmedAsync(user);
         if(!checkConfirmed)
         {
             return Unauthorized("Email not verified.");
         }
-        if (user == null || !await _userManager.CheckPasswordAsync(user, authenticateRequest.Password))
-            return Unauthorized();
+        if (!await _userManager.CheckPasswordAsync(user, authenticateRequest.Password))
+            return Unauthorized("Invalid email or password.");
 
         return new AuthenticateResponse
         {
@@ -115,18 +119,18 @@ public class AccountController : ControllerBase
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest forgotPasswordRequest)
     {
-        if(ModelState.IsValid)
+        if(!ModelState.IsValid)
         {
             return BadRequest();
         }
 
-        var user = await _userManager.FindByEmailAsync(forgotPasswordRequest.Email);
+        var user = await _userManager.FindByEmailAsync(forgotPasswordRequest.Email!);
         if (user == null)
             return BadRequest("User not found");
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        await _emailService.SendEmailAsync(user.Email, "Reset Password", 
-            $"Please reset your password by clicking here: {forgotPasswordRequest.ClientUri}/reset-password?email={user.Email}&token={token}");
+        await _emailService.SendEmailAsync(user.Email, "Restablecer contraseña", 
+            $"Hola! Puedes restablecer tu contraseña ingresando al siguiente link: https://psyshield-reset-pass.netlify.app/?email={user.Email}&token={token}");
 
         return Ok();
     }
@@ -134,7 +138,7 @@ public class AccountController : ControllerBase
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest resetPasswordRequest)
     {
-        if(ModelState.IsValid)
+        if(!ModelState.IsValid)
         {
             return BadRequest();
         }
@@ -143,10 +147,57 @@ public class AccountController : ControllerBase
         if (user == null)
             return BadRequest("User not found");
 
-        var result = await _userManager.ResetPasswordAsync(user, resetPasswordRequest.Token!, resetPasswordRequest.Password!;
+        var result = await _userManager.ResetPasswordAsync(user, resetPasswordRequest.Token!, resetPasswordRequest.Password!);
         if (result.Succeeded)
             return Ok();
 
         return BadRequest(result.Errors);
     }
+
+    [HttpPut("update-user")]
+    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest updateUserRequest)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var user = await _userManager.FindByIdAsync(updateUserRequest.Id);
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+
+        user.Email = updateUserRequest.Email;
+        user.UserName = updateUserRequest.Email;
+        user.Name = updateUserRequest.Name;
+        user.LastName = updateUserRequest.LastName;
+
+        var result = await _userManager.UpdateAsync(user);
+        if (result.Succeeded)
+        {
+            return Ok();
+        }
+
+        return BadRequest(result.Errors);
+    }
+
+    [HttpDelete("delete-user/{id}")]
+    public async Task<IActionResult> DeleteUser(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+
+        var result = await _userManager.DeleteAsync(user);
+        if (result.Succeeded)
+        {
+            return Ok();
+        }
+
+        return BadRequest(result.Errors);
+    }
+
 }
