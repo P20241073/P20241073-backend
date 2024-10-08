@@ -2,6 +2,9 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using PostmarkDotNet;
+using PostmarkDotNet.Model;
+
 
 namespace Users.Services.EmailConfirmation;
 
@@ -13,28 +16,31 @@ public class SmtpSettings
     public string Password { get; set; }
 }
 
-public class EmailService
+public class EmailService(IOptions<SmtpSettings> smtpSettings)
 {
-    private readonly SmtpClient _smtpClient;
-    private readonly SmtpSettings _smtpSettings;
+    private readonly SmtpSettings _smtpSettings = smtpSettings.Value;
 
-    public EmailService(IOptions<SmtpSettings> smtpSettings)
+    public async Task SendEmailAsync(string toEmail, string subject, string textBody, string htmlBody)
     {
-        _smtpSettings = smtpSettings.Value;
-        _smtpClient = new SmtpClient(_smtpSettings.Host, _smtpSettings.Port)
+        var message = new PostmarkMessage()
         {
-            Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password),
-            EnableSsl = true
-        };
-    }
-
-    public async Task SendEmailAsync(string toEmail, string subject, string body)
-    {
-        var mailMessage = new MailMessage(_smtpSettings.Username, toEmail, subject, body)
-        {
-            IsBodyHtml = true
+            To = toEmail,
+            From = _smtpSettings.Username,
+            TrackOpens = true,
+            Subject = subject,
+            TextBody = textBody,
+            HtmlBody = htmlBody,
+            MessageStream = "psyshield",
+            Tag = subject,
+            Headers = new HeaderCollection(new Dictionary<string, string> { { "X-PM-Message-Stream", "psyshield" } })
         };
 
-        await _smtpClient.SendMailAsync(mailMessage);
+        var client = new PostmarkClient("f059afb6-44cd-40a3-8d9a-d2834b03e161");
+        await client.SendMessageAsync(message);
+
+        // if (sendResult.Status != PostmarkStatus.Success){ 
+            
+        // }
+        // else { /* Resolve issue.*/ }
     }
 }

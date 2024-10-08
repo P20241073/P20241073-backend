@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Security.Domain.Services.Communication;
 using Users.Domain.Model;
 using Users.Services.EmailConfirmation;
@@ -68,8 +69,8 @@ public class AccountController : ControllerBase
 
             //require email confirmation
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            await _emailService.SendEmailAsync(user.Email, "Bienvenido a Psyshield! Por favor verifica tu email", 
-                    $"El código de verificación de su cuenta es: {code}");
+            await _emailService.SendEmailAsync(user.Email, "Bienvenido a Psyshield! Por favor verifica tu email",
+             $"El código de verificación de su cuenta es: {code}", $"El código de verificación de su cuenta es: <b>{code}</b>");
 
             await _userManager.AddToRoleAsync(user, "User");
             return StatusCode(201);
@@ -129,8 +130,16 @@ public class AccountController : ControllerBase
             return BadRequest("User not found");
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        await _emailService.SendEmailAsync(user.Email, "Restablecer contraseña", 
-            $"Hola! Puedes restablecer tu contraseña ingresando al siguiente link: https://psyshield-reset-pass.netlify.app/?email={user.Email}&token={token}");
+        var param = new Dictionary<string, string>
+        {
+            {"email", user.Email!},
+            {"token", token}
+        };
+        var callBack = QueryHelpers.AddQueryString("https://psyshield-reset-pass.netlify.app", param);
+        await _emailService.SendEmailAsync(user.Email!, "Restablecer contraseña", 
+            $"Hola! Puedes restablecer tu contraseña ingresando al siguiente link: {callBack}", 
+            $"Hola! Puedes restablecer tu contraseña ingresando al siguiente link: {callBack}\">{callBack}</a>"
+        );
 
         return Ok();
     }
