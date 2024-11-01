@@ -25,7 +25,7 @@ public class EmailService(IOptions<SmtpSettings> smtpSettings)
         var message = new PostmarkMessage()
         {
             To = toEmail,
-            From = _smtpSettings.Username,
+            From = "postmark@francovp.com",
             TrackOpens = true,
             Subject = subject,
             TextBody = textBody,
